@@ -32,9 +32,9 @@ func fetch2(url string, ch chan<- string) {
 	}
 
 	// write the output to a (sanitized) file
-	fname_base := fmt.Sprintf("fetchall.%s.html", url)
+	fnameBase := fmt.Sprintf("fetchall.%s.html", url)
 	re := regexp.MustCompile("[^\\w\\.]+")
-	filename := re.ReplaceAllString(fname_base, "_")
+	filename := re.ReplaceAllString(fnameBase, "_")
 
 	fmt.Println("Filename is", filename)
 	outfile, err := os.Create(filename)
@@ -45,8 +45,8 @@ func fetch2(url string, ch chan<- string) {
 
 	dst := io.Writer(outfile)
 	nbytes, err := io.Copy(dst, resp.Body)
-	outfile.Close()
-	resp.Body.Close() // don't leak resources
+	_ = outfile.Close()
+	_ = resp.Body.Close() // don't leak resources
 	if err != nil {
 		ch <- fmt.Sprintf("while reading %s: %v", url, err)
 		return

@@ -12,7 +12,7 @@ func main() {
 	var err error
 
 	if len(os.Args) < 2 {
-		fmt.Println("Usage: ", os.Args[0], "[n]]\n")
+		_, _ = fmt.Fprint(os.Stderr, "Usage: ", os.Args[0], " [n]]\n\n")
 		os.Exit(1)
 	}
 
